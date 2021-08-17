@@ -1,4 +1,4 @@
-# Cypress Excercise
+# Cypress Exercise
 ---
 Exercises is from the 'CYPRESS | Step-by-Step for Beginners | Hands-On Training" course on Udemy by Raghav Pal
 
