@@ -11,7 +11,7 @@ const validationSchema = Joi.object({
 router.post('/register', async (req, res) => {
     const {error} = validationSchema.validate(req.body)
 
-    if (error) return res.status(400).send(error.details)
+    if (error) return res.status(400).send(error.details[0].message)
 
     const user = new User({
         name: req.body.name,
