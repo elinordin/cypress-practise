@@ -6,7 +6,7 @@ const bcrypt = require ('bcrypt')
 router.post('/register', async (req, res) => {
     
     const {error} = Validate.register(req.body)
-    if (error) return res.status(400).send(error.details[0].message)
+    if(error) return res.status(400).send(error.details[0].message)
 
     const emailExists = await User.findOne({email: req.body.email})
     if(emailExists) return res.status(400).send('User email already registered')
@@ -21,21 +21,36 @@ router.post('/register', async (req, res) => {
         const savedUser = await user.save()
         res.send(savedUser)
     } catch(err) {
-        res.status(400).send("Error: " + err)
+        res.status(400).send(err)
     }
+})
+
+router.post('/login', async (req, res) => {
+    
+    const {error} = Validate.login(req.body)
+    if(error) return res.status(400).send(error.details[0].message)
+
+    const existingUser = await User.findOne({email: req.body.email})
+    if(!existingUser) return res.status(400).send('User not found')
+
+    const validPassword = await bcrypt.compare(req.body.password, existingUser.password)
+    if(!validPassword) return res.status(401).send('Invalid password')
+    
+    res.status(200).send('Logged in')
+
 })
 
 router.delete('/delete', async (req, res) => {
     
     const userToDelete = await User.findOne({email: req.body.email})
 
-    if (!userToDelete) return res.status(400).send('User was not found in the database')
+    if (!userToDelete) return res.status(400).send('User not found')
 
     try {
         await userToDelete.deleteOne()
         res.send(userToDelete)
     } catch(err) {
-        res.status(400).send("Error: " + err)
+        res.status(400).send(err)
     }
 })
 
