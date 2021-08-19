@@ -1,16 +1,22 @@
 describe("/register test suite", () => {
   const registerEndpoint = "http://localhost:3000/api/user/register"
+  const deleteEndpoint = "http://localhost:3000/api/user/delete"
 
   it("creates user with valid body", () => {
     cy.request({
         method: "POST", 
         url: registerEndpoint, 
-        body: { name: "Valid Name", email: "valid@email.com", password: "validPassword" }
+        body: { name: "Test Name", email: "test@email.com", password: "testPassword" }
     }).then((response) => {
       expect(response.status).to.equal(200)
-      expect(response.body.name).to.equal("Valid Name")
-      expect(response.body.email).to.equal("valid@email.com")
-      expect(response.body.password).to.equal("validPassword")
+      expect(response.body.name).to.equal("Test Name")
+      expect(response.body.email).to.equal("test@email.com")
+      expect(response.body.password).to.equal("testPassword")
+    })
+    cy.request({
+      method: "DELETE",
+      url: deleteEndpoint,
+      body: { email: "test@email.com" }
     })
   })
 
