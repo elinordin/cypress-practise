@@ -10,7 +10,6 @@ describe("Login test suite", () => {
           body: { email: "a@name.com", password: "aPassword" }
         }).then((response) => {
           expect(response.status).to.equal(200)
-          expect(response.body).to.equal("Logged in")
         })
       })
 
