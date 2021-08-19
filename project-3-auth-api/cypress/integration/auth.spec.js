@@ -20,6 +20,18 @@ describe("/register test suite", () => {
     })
   })
 
+  it("returns 400 when registering an existing user", () => {
+    cy.request({
+      method: "POST", 
+      url: registerEndpoint, 
+      failOnStatusCode: false,
+      body: { name: "Existing User", email: "existing@user.com", password: "existingUserPassword" }
+    }).then((response) => {
+      expect(response.status).to.equal(400)
+      expect(response.body).to.equal("User email already registered")
+    })
+  })
+
   it("returns 400 with invalid name", () => {
     cy.request({
       method: "POST",
