@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const User = require('../models/users')
 const {Validate} = require ('./validation')
+const bcrypt = require ('bcrypt')
 
 router.post('/register', async (req, res) => {
     
@@ -13,7 +14,7 @@ router.post('/register', async (req, res) => {
     const user = new User({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
+        password: await bcrypt.hash(req.body.password, 13)
     })
 
     try {

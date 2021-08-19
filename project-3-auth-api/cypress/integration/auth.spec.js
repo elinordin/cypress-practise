@@ -12,7 +12,7 @@ describe("/register test suite", () => {
       expect(response.status).to.equal(200)
       expect(response.body.name).to.equal("Test Name")
       expect(response.body.email).to.equal("test@email.com")
-      expect(response.body.password).to.equal("testPassword")
+      expect(response.body.password).to.not.equal("testPassword")
     })
     cy.request({
       method: "DELETE",
