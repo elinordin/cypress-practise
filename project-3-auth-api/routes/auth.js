@@ -28,7 +28,7 @@ router.delete('/delete', async (req, res) => {
     
     const userToDelete = await User.findOne({email: req.body.email})
 
-    if (!userToDelete) return res.status(400).send('User was not found in the database and could therefor not be deleted')
+    if (!userToDelete) return res.status(400).send('User was not found in the database')
 
     try {
         await userToDelete.deleteOne()
